@@ -10,7 +10,7 @@ namespace MINServer.Controllers
         public IActionResult Index()
         {
             return PhysicalFile(
-                Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "hello", "index.html"),
+                Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "hello.html"),
                 "text/html"
                 );
         }

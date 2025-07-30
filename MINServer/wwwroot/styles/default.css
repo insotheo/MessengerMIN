@@ -1,0 +1,176 @@
+﻿:root {
+    /* Dark is default */
+    --primary-color: #6200ea;
+    --primary-hover: #3700b3;
+    --background: #121212;
+    --card-bg: #1e1e1e;
+    --input-bg: #2a2a2a;
+    --input-focus: #3a3a3a;
+    --text-color: #ffffff;
+    --muted-color: #aaaaaa;
+    --border-radius: 10px;
+}
+
+body.light-theme {
+    --background: #f4f4f4;
+    --card-bg: #ffffff;
+    --input-bg: #e8e8e8;
+    --input-focus: #dddddd;
+    --text-color: #121212;
+    --muted-color: #555555;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    background-color: var(--background);
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+header {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+#theme-toggle {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+    #theme-toggle:hover {
+        transform: scale(1.1);
+    }
+
+main.card {
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+    width: 100%;
+    max-width: 400px;
+    overflow: hidden;
+    position: relative;
+    transition: background-color 0.3s;
+}
+
+.form-container {
+    display: none;
+    flex-direction: column;
+    padding: 40px 30px;
+    animation: fadeIn 0.4s ease forwards;
+}
+
+    .form-container.active {
+        display: flex;
+    }
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.3rem;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+input {
+    background-color: var(--input-bg);
+    border: none;
+    border-radius: var(--border-radius);
+    padding: 12px 15px;
+    margin-bottom: 15px;
+    color: var(--text-color);
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+    input:focus {
+        background-color: var(--input-focus);
+        outline: none;
+    }
+
+button {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border: none;
+    border-radius: var(--border-radius);
+    padding: 12px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+    button:hover {
+        background-color: var(--primary-hover);
+        transform: translateY(-2px);
+    }
+
+.switch-text {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 0.9rem;
+}
+
+    .switch-text a {
+        color: var(--primary-color);
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+
+        .switch-text a:hover {
+            color: var(--primary-hover);
+        }
+
+footer {
+    margin-top: 20px;
+    text-align: center;
+    color: var(--muted-color);
+    font-size: 0.9rem;
+}
+
+    footer a {
+        color: var(--primary-color);
+        text-decoration: none;
+    }
+
+        footer a:hover {
+            color: var(--primary-hover);
+        }
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

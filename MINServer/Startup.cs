@@ -1,8 +1,10 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using MINServer.Data;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
 
 namespace MINServer
 {
@@ -22,7 +24,11 @@ namespace MINServer
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
 
-            //add db later
+
+            services.AddDbContext<MessengerDbContext>(options =>
+            {
+                options.UseSqlite("Data Source=messenger.db");
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
