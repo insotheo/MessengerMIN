@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hello, MIN!</title>
     <link rel="stylesheet" href="styles/default.css" />
+    <link rel="stylesheet" href="styles/captcha.css" />
 </head>
 <body>
     <header>
@@ -32,11 +33,41 @@
             </form>
             <p class="switch-text">Already have an account? <a href="#" onclick="toggleForms(event)">Login</a></p>
         </div>
+
+        <!-------------CAPTCHA MODAL--------------------------------------------->
+        <div id="captcha-modal" class="captcha-modal hidden">
+            <div class="captcha-card">
+                <h3>Solve the CAPTCHA</h3>
+                <div id="captcha-problem" class="captcha-problem"></div>
+                <input type="text" id="captcha-answer" placeholder="Your answer">
+                <div class="captcha-buttons">
+                <button id="captcha-submit">Submit</button>
+                <button id="captcha-cancel">Cancel</button>
+                </div>
+            </div>
+        </div>
+        <!----------------------------------------------------------------------->
+
     </main>
     <footer>
         <a href="https://github.com/insotheo/MessengerMIN">Github</a>
     </footer>
 
-    <script src="scripts/hello.js"></script>
+    <script>
+        function toggleForms(e) {
+            e.preventDefault();
+            document.getElementById('login-container').classList.toggle('active');
+            document.getElementById('register-container').classList.toggle('active');
+        }
+
+        //theme
+        const toggleButton = document.getElementById('theme-toggle');
+        toggleButton.addEventListener('click', () => {
+            document.body.classList.toggle('light-theme');
+            toggleButton.textContent = document.body.classList.contains('light-theme') ? '🌞' : '🌙';
+        });
+    </script>
+
+    <script type="module" src="scripts/hello.js"></script>
 </body>
 </html>

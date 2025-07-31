@@ -1,12 +1,21 @@
-﻿function toggleForms(e) {
-    e.preventDefault();
-    document.getElementById('login-container').classList.toggle('active');
-    document.getElementById('register-container').classList.toggle('active');
+﻿import { show_captcha } from "./CAPTCHA.js";
+
+const loginForm = document.getElementById("login-form");
+const registerForm = document.getElementById("register-form");
+
+async function handleLogin(event){
+    event.preventDefault();
+
+    const passed = await show_captcha();
+    alert(passed ? "CAPTCHA passed!" : "Wrong CAPTCHA!"); //DBG
 }
 
-//theme
-const toggleButton = document.getElementById('theme-toggle');
-toggleButton.addEventListener('click', () => {
-    document.body.classList.toggle('light-theme');
-    toggleButton.textContent = document.body.classList.contains('light-theme') ? '🌞' : '🌙';
-});
+async function handleRegistration(event){
+    event.preventDefault();
+
+    const passed = await show_captcha();
+    alert(passed ? "CAPTCHA passed!" : "Wrong CAPTCHA!"); //DBG
+}
+
+loginForm.addEventListener("submit", handleLogin);
+registerForm.addEventListener("submit", handleRegistration);
