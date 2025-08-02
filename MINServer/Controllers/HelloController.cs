@@ -9,6 +9,11 @@ namespace MINServer.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            if(Request.Cookies.ContainsKey("jwtToken") && !string.IsNullOrEmpty(Request.Cookies["jwtToken"]))
+            {
+                return Redirect("/main");
+            }
+
             return PhysicalFile(
                 Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "hello.html"),
                 "text/html"

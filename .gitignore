@@ -3,6 +3,11 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
+appsettings.json
+appsettings.Development.json
+*.http
+Properties/
+
 # User-specific files
 *.rsuser
 *.suo
@@ -416,3 +421,6 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+/MINServer/appsettings.json
+/MINServer/appsettings.Development.json
+/MINServer/MINServer.http

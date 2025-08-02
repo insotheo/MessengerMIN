@@ -1,10 +1,15 @@
-﻿using MINServer.Data;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
+using MINServer.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace MINServer
 {
@@ -24,6 +29,41 @@ namespace MINServer
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
 
+            var jwtSettings = Configuration.GetSection("Jwt");
+            var key = Encoding.ASCII.GetBytes(jwtSettings["Key"]);
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = jwtSettings["Issuer"],
+                        ValidAudience = jwtSettings["Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(key)
+                    };
+
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = context =>
+                        {
+                            if (string.IsNullOrEmpty(context.Token))
+                            {
+                                context.Token = context.Request.Cookies["jwtToken"];
+                            }
+                            return Task.CompletedTask;
+                        }
+                    };
+                });
+
+            services.AddAuthorization();
 
             services.AddDbContext<MessengerDbContext>(options =>
             {
@@ -46,18 +86,28 @@ namespace MINServer
 
             app.Use(async (context, next) =>
             {
-                if(context.Request.Path == "/")
+                string path = context.Request.Path;
+                bool isLoggedIn = context.Request.Cookies.ContainsKey("jwtToken") && !string.IsNullOrEmpty(context.Request.Cookies["jwtToken"]);
+
+                if (isLoggedIn && path == "/")
+                {
+                    context.Response.Redirect("/main");
+                    return;
+                }
+                else if(!isLoggedIn)
                 {
                     context.Response.Redirect("/hello");
                     return;
                 }
+
                 await next();
             });
 
+
             app.UseRouting();
 
-            //add auth later
-            //app.UseAuthorization();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
